@@ -24,10 +24,25 @@ Análisis estratégico y modelado predictivo aplicado a las cartas del juego de 
 
 ---
 
+## Skills disponibles
+
+| Skill | Ubicación | Cuándo usarla |
+|---|---|---|
+| `wingspan-domain` | `.claude/skills/wingspan-domain.md` | Antes de construir la variable objetivo, formular hipótesis o interpretar resultados. Contiene reglas del juego, señales de cada motor, función `classify_engine()` recomendada y notas de modelado. |
+
+> Siempre preferir la lógica de `wingspan-domain` sobre heurísticas ad-hoc.
+
+---
+
 ## Estructura del repositorio
 
 ```
 wingspan-ml/
+├── .claude/
+│   ├── commands/
+│   │   └── status.md                    ← slash command /status
+│   └── skills/
+│       └── wingspan-domain.md           ← reglas del juego y lógica de clasificación
 ├── data/
 │   └── raw/
 │       ├── wingspan-20260128.xlsx       ← dataset principal (~907 cartas, 65 columnas)
