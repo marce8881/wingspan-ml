@@ -3,10 +3,10 @@
 ## Descripción del proyecto
 
 Proyecto final del Diplomado en Transformación Digital Empresarial.
-Análisis estratégico y modelado predictivo aplicado a las cartas del juego de mesa Wingspan.
+Análisis estratégico y modelado no supervisado aplicado a las cartas del juego de mesa Wingspan.
 
-**Pregunta central:** ¿Qué atributos de las cartas predicen el tipo de motor de juego que activan?
-**Enfoque:** Clasificación supervisada con Scikit-learn Pipelines y explicabilidad SHAP.
+**Pregunta central:** ¿Qué grupos naturales emergen de los textos de poder de las cartas de Wingspan, y cómo se relacionan esos grupos con el tipo de activación, las mecánicas especiales y el hábitat del ave?
+**Enfoque:** Clustering no supervisado sobre texto vectorizado (TF-IDF) con reducción de dimensionalidad (PCA + t-SNE).
 
 ---
 
@@ -66,40 +66,32 @@ wingspan-ml/
 - **Fuente:** BoardGameGeek (BGG)
 - **Hoja principal:** `Birds` — cartas de aves (juego base + expansiones)
 - **Advertencia:** Las filas 1 y 2 del Excel son filas de estadísticas internas. Siempre cargar con `skiprows=[1, 2]`.
-- **Variable objetivo:** `engine_type` — derivada del campo `Power text` mediante clasificación por palabras clave.
-
-| Tipo de motor | Palabras clave |
-|---|---|
-| `motor_huevos` | lay, egg |
-| `motor_cartas` | draw, tuck, card |
-| `motor_comida` | cache, food, gain |
-| `motor_puntos` | point, victory |
-| `otro` | sin coincidencia |
+- **Variable de análisis principal:** `Power text` — texto libre que describe el poder de cada carta. Se vectoriza con TF-IDF para descubrir grupos naturales.
+- **Variables de enriquecimiento:** `Color`, `Predator`, `Flocking`, `Forest`, `Grassland`, `Wetland`, `Egg limit`, `Victory points` — se usan para describir el perfil de cada cluster, no como features de entrada.
 
 ---
 
 ## Esqueleto de referencia: `fraude_detection_pipeline.ipynb`
 
-El docente (Rosmer) recomienda usar este script como base del proyecto. Contiene el flujo profesional completo que se exige en la rúbrica. Al adaptar el notebook de Wingspan, seguir la misma estructura:
+El docente (Rosmer) recomienda usar este script como base del proyecto. Al adaptar el notebook de Wingspan, seguir la misma filosofía de flujo profesional:
 
 | Sección del pipeline de fraude | Equivalente en Wingspan |
 |---|---|
 | Imports y configuración | Imports y configuración |
-| Carga de datos | Carga con `skiprows=[1, 2]`, filtrar filas sin nombre |
-| Análisis exploratorio rápido | Distribución de `engine_type`, VP, hábitats |
-| Preparación de datos | Codificación de binarias (X→1), `train_test_split` estratificado |
-| Definición de modelos | Regresión Logística Multinomial vs. Random Forest |
-| Búsqueda de hiperparámetros con CV | `GridSearchCV` con `StratifiedKFold` |
-| Evaluación en test | Métricas: F1-score, Precision, Recall por clase |
-| Comparación visual de métricas | Gráficas comparativas de los dos modelos |
-| Importancia de features | Sustituir por SHAP values |
-| Resumen ejecutivo | Conclusión estratégica para el jugador |
+| Carga de datos | Carga con `skiprows=[1, 2]`, separar cartas con y sin poder |
+| Análisis exploratorio rápido | EDA del `Power text`: longitud, palabras frecuentes, nulos |
+| Preparación de datos | TF-IDF sobre `Power text`, reducción con PCA |
+| Definición de modelos | K-means vs DBSCAN |
+| Búsqueda de hiperparámetros | Método del codo + silhouette score para K-means; eps + min_samples para DBSCAN |
+| Evaluación | Silhouette score, Davies-Bouldin index, visualización t-SNE |
+| Comparación visual | t-SNE coloreado por cluster, top palabras por cluster |
+| Importancia de features | Perfil de cada cluster: Color, Predator, Flocking, hábitat |
+| Resumen ejecutivo | ¿Los clusters son motores reconocibles? Recomendación al jugador |
 
 **Diferencias clave respecto al pipeline de fraude:**
-- El problema de Wingspan es **multiclase** (5 tipos de motor), no binario.
-- No aplica balanceo con SMOTE (las clases no están tan desbalanceadas).
-- En lugar de importancia de features del modelo, usar **SHAP** directamente.
-- La métrica principal es **F1-score macro** (no average_precision).
+- No hay `train_test_split` — el clustering es no supervisado, usa todos los datos.
+- Las métricas de evaluación son internas: silhouette score y Davies-Bouldin index.
+- La "interpretación" viene del perfil de cada cluster, no de SHAP.
 
 ---
 
@@ -109,9 +101,9 @@ El notebook debe cubrir estas cinco secciones en orden:
 
 | Sección | Peso | Contenido mínimo |
 |---|---|---|
-| 1. Problema y datos | 15% | Pregunta, justificación, carga reproducible, EDA, limpieza |
-| 2. Modelado y análisis | 35% | Pipelines Scikit-learn, 2 modelos comparados, métricas F1/Precision/Recall |
-| 3. Interpretación | 25% | SHAP values, mínimo 3 visualizaciones con título e interpretación textual |
+| 1. Problema y datos | 15% | Pregunta, justificación, carga reproducible, EDA sobre `Power text`, limpieza |
+| 2. Modelado y análisis | 35% | TF-IDF + PCA + t-SNE, K-means vs DBSCAN, justificación del número de clusters |
+| 3. Interpretación | 25% | Perfil de cada cluster, mínimo 3 visualizaciones con título e interpretación textual |
 | 4. Conclusiones | 15% | Respuesta a la pregunta, limitaciones, recomendación concreta al jugador |
 | 5. Uso de IA | 10% | Celda Markdown con prompts usados, respuestas recibidas y ajustes propios |
 
@@ -122,10 +114,10 @@ El notebook debe cubrir estas cinco secciones en orden:
 - Notebook limpio, sin errores de ejecución, con celdas Markdown explicativas.
 
 **Prácticas penalizables a evitar:**
-- Usar accuracy como métrica principal si hay clases desbalanceadas.
 - Entregar gráficos sin interpretación textual.
 - Copiar código de IA sin ajuste ni criterio propio.
 - No documentar el uso de IA en la sección 5.
+- No describir el perfil de los clusters encontrados.
 
 ---
 

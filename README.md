@@ -1,10 +1,10 @@
-# Wingspan ML — Análisis Estratégico y Modelado Predictivo
+# Wingspan ML — Análisis estratégico y clustering de cartas
 
 Proyecto final del Diplomado en Transformación Digital Empresarial.
 
 ## Pregunta de investigación
 
-¿Qué atributos de las cartas de Wingspan predicen mejor el tipo de motor de juego (huevos, comida, robo de cartas) que una carta potencia?
+¿Qué grupos naturales emergen de los textos de poder de las cartas de Wingspan, y cómo se relacionan esos grupos con el tipo de activación, las mecánicas especiales y el hábitat del ave?
 
 ## Dataset
 
@@ -49,11 +49,11 @@ wingspan-ml/
 
 ## Enfoque metodológico
 
-- **Tipo:** Aprendizaje supervisado — Clasificación multiclase
-- **Variable objetivo:** Tipo de motor de juego derivado del texto de poder de cada carta
-- **Modelos comparados:** Regresión Logística Multinomial vs. Random Forest Classifier
-- **Pipeline:** Scikit-learn (escalado + codificación + modelo)
-- **Interpretabilidad:** SHAP values
+- **Tipo:** Aprendizaje no supervisado — Clustering sobre texto vectorizado
+- **Técnica de representación:** TF-IDF sobre el campo `Power text`
+- **Reducción de dimensionalidad:** PCA (varianza explicada) + t-SNE (visualización 2D)
+- **Algoritmos comparados:** K-means vs DBSCAN
+- **Interpretación:** perfil de cada cluster según `Color`, `Predator`, `Flocking` y hábitat
 
 ## Autora
 
