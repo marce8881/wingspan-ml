@@ -10,7 +10,7 @@ Proyecto final del Diplomado en Transformación Digital Empresarial.
 
 Fuente: [BoardGameGeek](https://boardgamegeek.com/) — base de datos de cartas de Wingspan (juego base + expansiones).
 
-- ~907 cartas de aves
+- 707 cartas de aves
 - 65 variables por carta: hábitat, costo de comida, tipo de nido, puntos de victoria, texto de poder, región geográfica, entre otras.
 - Archivo: `data/raw/wingspan-20260128.xlsx`
 
@@ -22,7 +22,7 @@ wingspan-ml/
 │   └── raw/                    ← dataset original sin modificar
 ├── docs/                       ← propuesta, guía del curso y descripción del dataset
 ├── notebooks/
-│   └── wingspan_analysis.ipynb ← análisis principal (EDA → modelos → SHAP → conclusiones)
+│   └── wingspan_analysis.ipynb ← análisis principal (EDA → modelos → clustering → conclusiones)
 ├── requirements.txt
 └── README.md
 ```

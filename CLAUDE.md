@@ -45,7 +45,7 @@ wingspan-ml/
 │       └── wingspan-domain.md           ← reglas del juego y lógica de clasificación
 ├── data/
 │   └── raw/
-│       ├── wingspan-20260128.xlsx       ← dataset principal (~907 cartas, 65 columnas)
+│       ├── wingspan-20260128.xlsx       ← dataset principal (707 cartas, 65 columnas)
 │       └── wingspan_head15.csv          ← muestra de 15 filas para exploración rápida
 ├── docs/
 │   ├── descripcion_dataset_wingspan.md  ← descripción técnica del dataset
@@ -83,7 +83,7 @@ El docente (Rosmer) recomienda usar este script como base del proyecto. Al adapt
 | Preparación de datos | TF-IDF sobre `Power text`, reducción con PCA |
 | Definición de modelos | K-means vs DBSCAN |
 | Búsqueda de hiperparámetros | Método del codo + silhouette score para K-means; eps + min_samples para DBSCAN |
-| Evaluación | Silhouette score, Davies-Bouldin index, visualización t-SNE |
+| Evaluación | Silhouette score, visualización t-SNE |
 | Comparación visual | t-SNE coloreado por cluster, top palabras por cluster |
 | Importancia de features | Perfil de cada cluster: Color, Predator, Flocking, hábitat |
 | Resumen ejecutivo | ¿Los clusters son motores reconocibles? Recomendación al jugador |
@@ -125,4 +125,4 @@ El notebook debe cubrir estas cinco secciones en orden:
 
 - Python 3.11
 - Entorno virtual en `.venv/` (ya configurado, ignorado por git)
-- Dependencias: `pandas`, `numpy`, `openpyxl`, `scikit-learn`, `shap`, `matplotlib`, `seaborn`, `jupyter`
+- Dependencias: `pandas`, `numpy`, `openpyxl`, `scikit-learn`, `matplotlib`, `seaborn`, `plotly`, `jupyter`, `ipykernel`
